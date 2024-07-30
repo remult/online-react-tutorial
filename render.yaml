@@ -1,0 +1,7 @@
+- type: web
+  name: online-remult-tutorial
+  runtime: static
+  buildCommand: npm install; npm build
+  staticPublishPath: ./dist
+  #  envVars:
+  #   - fromGroup: online-remult-tutorial
