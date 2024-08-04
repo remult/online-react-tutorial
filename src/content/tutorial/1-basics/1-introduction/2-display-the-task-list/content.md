@@ -2,6 +2,7 @@
 type: lesson
 title: Display the Task List
 focus: /frontend/Todo.tsx
+autoReload: true
 ---
 
 ## Display the Task List
