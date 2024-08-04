@@ -12,6 +12,7 @@ export default function App() {
       .find({
         limit: 20,
         orderBy: { createdAt: "asc" },
+        where: { completed: true },
       })
       .then(setTasks);
   }, []);

@@ -73,7 +73,7 @@ Nest
 
 Koa)
 
-Checkout the `backend/index.ts` and add the following lines to include the `Task` in the rest api.
+Checkout the `backend/index.ts`
 
 ```ts add={2,3,6-9}
 import express from 'express'
@@ -89,37 +89,43 @@ app.use(api)
 
 // briefly explain this code
 
-To see that it's working, click the `Toggle Terminal` button, and in the terminal you'll see the line `[remult] /api/tasks` that indicates that the `Task` entities is succesfully registered for the `restApi` using the key `tasks` defined in the entity.
+## Getting the tasks on the frontend
 
-## Adding some tasks
+Next we'll use the tasks form the frontend,
+Headout to the `frontend/Todo.tsx` react component, and add the following code to get the tasks from the backend
 
-Next we'll want to add some tasks on the backend, so we can use them later
-
-```ts add={4,8-21}
-import express from 'express'
-import { remultExpress } from 'remult/remult-express'
+```ts add={3,5,9-11}
+import { useEffect, useState } from 'react'
 import { Task } from '../shared/Task'
 import { repo } from 'remult'
 
-export const app = express()
-export const api = remultExpress({
-  entities: [Task],
-  initApi: async () => {
-    const taskRepo = repo(Task)
-    if ((await taskRepo.count()) == 0) {
-      await taskRepo.insert([
-        { title: 'Clean car' },
-        { title: 'Read a book' },
-        { title: 'Buy groceries' },
-        { title: 'Do laundry' },
-        { title: 'Cook dinner' },
-        { title: 'Walk the dog' },
-      ])
-    }
-  },
-})
+const taskRepo = repo(Task)
 
-app.use(api)
+export function Todo() {
+  const [tasks, setTasks] = useState<Task[]>([])
+  useEffect(() => {
+    taskRepo.find({}).then(setTasks)
+  }, [])
+  return (
+    <div>
+      <h1>Todos</h1>
+      <main>
+        {tasks.map((task) => {
+          return (
+            <div key={task.id}>
+              <input type="checkbox" checked={task.completed} />
+              {task.title}
+            </div>
+          )
+        })}
+      </main>
+    </div>
+  )
+}
+
 ```
 
-//briefly explain the code that was added using the initApi etc...
+- We ask remult for a `Repository` of type `Task` and store it in the `taskRepo` - the repository is used to perform all CRUD operations for our task
+- We'll use the `find` method of the repository in the `useEffect` hook, to get the tasks from the backend
+
+We've create a few ready made tasks for this tutorial to get it started.
