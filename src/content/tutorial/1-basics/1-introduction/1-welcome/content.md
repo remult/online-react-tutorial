@@ -106,9 +106,9 @@ export const api = remultExpress({
       await taskRepo.insert([
         { title: 'Clean car' },
         { title: 'Read a book' },
-        { title: 'Buy groceries' },
+        { title: 'Buy groceries', completed: true },
         { title: 'Do laundry' },
-        { title: 'Cook dinner' },
+        { title: 'Cook dinner', completed: true },
         { title: 'Walk the dog' },
       ])
     }
