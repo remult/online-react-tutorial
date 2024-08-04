@@ -6,10 +6,9 @@ focus: /frontend/Todo.tsx
 
 ## Display the Task List
 
-Next we'll use the tasks form the frontend,
-We've prepared a `Todo` react component that displays an array of `Task` - note that we're using the same "shared" `Task` type that we previously used in the backend.
+Next, we'll use the tasks from the backend and display them in the frontend. We've prepared a `Todo` React component that displays an array of `Task`. Note that we're using the same "shared" `Task` type that we previously used in the backend.
 
-Let's add the following code to display the tasks
+Let's add the following code to display the tasks:
 
 ```ts add={3,5,9-11}
 import { useEffect, useState } from 'react'
@@ -42,9 +41,12 @@ export function Todo() {
 
 ```
 
-- We ask remult for a `Repository` of type `Task` and store it in the `taskRepo` - the repository is used to perform all CRUD operations for our task
-- We'll use the `find` method of the repository in the `useEffect` hook, to get the tasks from the backend
+### Code Explanation
 
-This code will make a Rest API call to the backend to the /api/tasks url to get the tasks and display them
+- We ask Remult for a `Repository` of type `Task` and store it in `taskRepo`. The repository is used to perform all CRUD operations for our tasks.
+- Previously, we used a Repository in the `initApi` on the backend to create rows directly in our database. Now, we use the same Repository abstraction on the frontend. When it runs in the frontend, the same methods will perform REST API calls to the backend to get and manipulate the data.
+- We use the `find` method of the repository in the `useEffect` hook to get the tasks from the backend and set them in the state.
 
-See the tasks in the `preview` window below
+This code makes a REST API call to the backend at the `/api/tasks` URL to get the tasks and display them.
+
+You can see the tasks in the preview window below.
