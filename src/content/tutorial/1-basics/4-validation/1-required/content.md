@@ -44,6 +44,23 @@ export class Task {
 
 Try adding a task with no title to see the validation in action.
 
+> **Note:** In this tutorial, the errors appear in the browser's alert dialog as specified in the code in our `Todo.tsx` component:
+>
+> ```ts add={8}
+> async function addTask(e: FormEvent) {
+>   e.preventDefault()
+>   try {
+>     const newTask = await taskRepo.insert({ title: newTaskTitle })
+>     setTasks([...tasks, newTask])
+>     setNewTaskTitle('')
+>   } catch (error: any) {
+>     alert((error as { message: string }).message)
+>   }
+> }
+> ```
+
+---
+
 When an error occurs, it returns an error of type `ErrorInfo<Task>` that specifies the error for each field, allowing you to create a great UI where the error for a field is displayed next to its input.
 
 Here's an example of the error response:

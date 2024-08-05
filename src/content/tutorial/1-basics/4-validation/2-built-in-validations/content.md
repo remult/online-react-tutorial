@@ -78,7 +78,7 @@ export class Task {
 ### Code Explanation
 
 - We customized the validation message for the `Validators.maxLength(5)` validation.
-- The custom message function `(length) => `maximum ${length} characters`` will be used if the validation fails.
+- The custom message function `(length) => 'maximum ${length} characters'` will be used if the validation fails.
 
 ### Try It Out
 
