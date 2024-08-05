@@ -10,7 +10,7 @@ export function Todo() {
     taskRepo
       .find({
         orderBy: {
-          createdAt: 'asc',
+          title: 'asc',
         },
       })
       .then(setTasks)
