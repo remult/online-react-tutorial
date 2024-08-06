@@ -1,6 +1,6 @@
 import express from 'express'
 import { remultExpress } from 'remult/remult-express'
-import { Task } from '../shared/Task'
+import { Task } from '../shared/Task.js'
 import { repo } from 'remult'
 
 export const app = express()
@@ -8,7 +8,7 @@ export const api = remultExpress({
   entities: [Task],
   initApi: async () => {
     const taskRepo = repo(Task)
-    if ((await taskRepo.count()) == 0) {
+    if ((await taskRepo.count()) === 0) {
       await taskRepo.insert([
         { title: 'Clean car' },
         { title: 'Read a book' },

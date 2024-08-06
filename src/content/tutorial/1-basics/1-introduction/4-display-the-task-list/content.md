@@ -13,7 +13,7 @@ Let's add the following code to display the tasks:
 
 ```ts add={3,5,9-11}
 import { useEffect, useState } from 'react'
-import { Task } from '../shared/Task'
+import { Task } from '../shared/Task.js'
 import { repo } from 'remult'
 
 const taskRepo = repo(Task)
