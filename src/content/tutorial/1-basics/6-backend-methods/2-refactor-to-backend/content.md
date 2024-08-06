@@ -18,9 +18,7 @@ import { Task } from './Task.js'
 
 export class TasksController {
   @BackendMethod({ allowed: true })
-  static async setAllCompleted(
-    completed: boolean,
-  ) {
+  static async setAllCompleted(completed: boolean) {
     const taskRepo = remult.repo(Task)
     for (const task of await taskRepo.find()) {
       await taskRepo.update(task, { completed })
@@ -61,9 +59,7 @@ export const api = remultExpress({
 Adjust the `frontend/Todo.tsx` component to call the backend method:
 
 ```tsx add={4}
-async function setAllCompleted(
-  completed: boolean,
-) {
+async function setAllCompleted(completed: boolean) {
   await TasksController.setAllCompleted(completed)
 }
 ```

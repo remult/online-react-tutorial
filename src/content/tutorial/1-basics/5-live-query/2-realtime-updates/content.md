@@ -10,11 +10,7 @@ To enable real-time updates, we'll modify the `useEffect` hook to use `liveQuery
 
 ```ts add={2-6}
 useEffect(() => {
-  return taskRepo
-    .liveQuery()
-    .subscribe((info) =>
-      setTasks(info.applyChanges),
-    )
+  return taskRepo.liveQuery().subscribe((info) => setTasks(info.applyChanges))
 }, [])
 ```
 
@@ -37,7 +33,7 @@ Try making changes as `user-a` in the preview and see the effect on `user-b`. Yo
 
 Now that we can rely on `liveQuery`, we no longer need to manually update the `tasks` state, as `liveQuery` will handle that for us.
 
-```ts
+```ts add={7,16,22}
 async function addTask(e: FormEvent) {
   e.preventDefault()
   try {
@@ -51,14 +47,8 @@ async function addTask(e: FormEvent) {
   }
 }
 
-async function setCompleted(
-  task: Task,
-  completed: boolean,
-) {
-  const updatedTask = await taskRepo.update(
-    task,
-    { completed },
-  )
+async function setCompleted(task: Task, completed: boolean) {
+  const updatedTask = await taskRepo.update(task, { completed })
   // setTasks(tasks.map((t) => t.id === updatedTask.id ? updatedTask : t));  <-- these lines are no longer needed
 }
 

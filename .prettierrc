@@ -1,12 +1,4 @@
 {
   "semi": false,
-  "singleQuote": true,
-  "overrides": [
-    {
-      "files": "*.md",
-      "options": {
-        "printWidth": 50
-      }
-    }
-  ]
+  "singleQuote": true
 }
