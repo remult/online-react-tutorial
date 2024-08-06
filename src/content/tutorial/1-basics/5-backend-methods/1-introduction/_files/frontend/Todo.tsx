@@ -33,6 +33,8 @@ export function Todo() {
     }
   }
 
+  // Add setAllCompleted function here
+
   useEffect(() => {
     taskRepo.find().then(setTasks)
   }, [])

@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
-import { Task } from '../shared/Task'
+import { Task } from '../shared/Task.js'
 import { repo } from 'remult'
+import { TasksController } from '../shared/TasksController.js'
 
 const taskRepo = repo(Task)
 
@@ -31,6 +32,13 @@ export function Todo() {
     } catch (error: any) {
       alert((error as { message: string }).message)
     }
+  }
+
+  async function setAllCompleted(completed: boolean) {
+    for (const task of await taskRepo.find()) {
+      await taskRepo.update(task, { completed })
+    }
+    await taskRepo.find().then(setTasks)
   }
 
   useEffect(() => {
@@ -67,6 +75,14 @@ export function Todo() {
             </div>
           )
         })}
+        <div>
+          <button onClick={() => setAllCompleted(true)}>
+            Set All Completed
+          </button>
+          <button onClick={() => setAllCompleted(false)}>
+            Set All Uncompleted
+          </button>
+        </div>
       </main>
     </div>
   )

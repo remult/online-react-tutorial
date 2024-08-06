@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react'
-import { Task } from '../shared/Task'
+import { Task } from '../shared/Task.js'
 import { repo } from 'remult'
 
 const taskRepo = repo(Task)
@@ -32,6 +32,8 @@ export function Todo() {
       alert((error as { message: string }).message)
     }
   }
+
+  // Add setAllCompleted function here
 
   useEffect(() => {
     taskRepo.find().then(setTasks)

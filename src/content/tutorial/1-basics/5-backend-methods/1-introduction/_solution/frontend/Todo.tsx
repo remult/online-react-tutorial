@@ -33,6 +33,13 @@ export function Todo() {
     }
   }
 
+  async function setAllCompleted(completed: boolean) {
+    for (const task of await taskRepo.find()) {
+      await taskRepo.update(task, { completed })
+    }
+    await taskRepo.find().then(setTasks)
+  }
+
   useEffect(() => {
     taskRepo.find().then(setTasks)
   }, [])
@@ -67,6 +74,14 @@ export function Todo() {
             </div>
           )
         })}
+        <div>
+          <button onClick={() => setAllCompleted(true)}>
+            Set All Completed
+          </button>
+          <button onClick={() => setAllCompleted(false)}>
+            Set All Uncompleted
+          </button>
+        </div>
       </main>
     </div>
   )
