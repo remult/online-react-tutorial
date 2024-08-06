@@ -21,7 +21,6 @@ async function setAllCompleted(completed: boolean) {
   for (const task of await taskRepo.find()) {
     await taskRepo.update(task, {completed });
   }
-  setTasks(await taskRepo.find().then(setTasks))
 }
 useEffect(...)
 ```
