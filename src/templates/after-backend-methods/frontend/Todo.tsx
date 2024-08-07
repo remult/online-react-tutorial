@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Task } from '../shared/Task.js'
-import { repo } from 'remult'
+import { type ErrorInfo, repo } from 'remult'
 import { TasksController } from '../shared/TasksController.js'
 
 const taskRepo = repo(Task)
@@ -8,6 +8,7 @@ const taskRepo = repo(Task)
 export function Todo() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [newTaskTitle, setNewTaskTitle] = useState('')
+  const [error, setError] = useState<ErrorInfo<Task>>()
 
   async function addTask(e: FormEvent) {
     e.preventDefault()
@@ -32,11 +33,20 @@ export function Todo() {
   }
 
   async function setAllCompleted(completed: boolean) {
-    await TasksController.setAllCompleted(completed)
+    try {
+      setError(undefined)
+      await TasksController.setAllCompleted(completed)
+    } catch (error) {
+      setError(error as ErrorInfo<Task>)
+    }
   }
 
   useEffect(() => {
-    return taskRepo.liveQuery().subscribe((info) => setTasks(info.applyChanges))
+    setError(undefined)
+    return taskRepo.liveQuery().subscribe({
+      next: (info) => setTasks(info.applyChanges),
+      error: setError,
+    })
   }, [])
 
   return (
@@ -51,6 +61,11 @@ export function Todo() {
           />
           <button>Add</button>
         </form>
+        {error && (
+          <div>
+            <strong style={{ color: 'red' }}>Error: {error.message}</strong>
+          </div>
+        )}
         {tasks.map((task) => {
           return (
             <div key={task.id}>
