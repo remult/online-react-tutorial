@@ -2,18 +2,23 @@ import express from 'express'
 import { remultExpress } from 'remult/remult-express'
 import { Task } from '../shared/Task.js'
 import { TasksController } from '../shared/TasksController.js'
-import { repo, SqlDatabase } from 'remult'
-import sqlite3 from 'sqlite3'
-import { Sqlite3DataProvider } from 'remult/remult-sqlite3'
-import { AuthController } from '../../../../7-auth/2-user-authentication/_files/shared/AuthController'
+import { remult, repo } from 'remult'
+import session from 'cookie-session'
+import { AuthController } from '../shared/AuthController'
 
 export const app = express()
+
+app.enable('trust proxy') // required for stackblitz and other reverse proxy scenarios
+app.use(
+  session({
+    secret: process.env['SESSION_SECRET'] || 'my secret',
+  }),
+)
+
 export const api = remultExpress({
   entities: [Task],
-  controllers: [TasksController],
-  dataProvider: new SqlDatabase(
-    new Sqlite3DataProvider(new sqlite3.Database('.database.sqlite')),
-  ),
+  controllers: [TasksController, AuthController],
+  getUser: (request) => request.session?.['user'],
   initApi: async () => {
     const taskRepo = repo(Task)
     if ((await taskRepo.count()) == 0) {
